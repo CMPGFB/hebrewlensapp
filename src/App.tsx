@@ -327,6 +327,29 @@ function App() {
             )}
           </button>
 
+          {/* Animated Progress Bar */}
+          {isLoading && (
+            <div className="mt-3 space-y-2">
+              <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 rounded-full animate-pulse"
+                  style={{
+                    width: '100%',
+                    animation: 'progressShimmer 1.5s ease-in-out infinite',
+                    backgroundSize: '200% 100%',
+                  }}
+                />
+              </div>
+              <p className="text-xs text-gray-500 text-center animate-pulse">Analyzing ancient Hebrew letters & translating with AI...</p>
+              <style>{`
+                @keyframes progressShimmer {
+                  0% { background-position: -200% 0; }
+                  100% { background-position: 200% 0; }
+                }
+              `}</style>
+            </div>
+          )}
+
           {error && (
             <div className="mt-4 p-3 bg-red-50 text-red-700 rounded-lg flex items-center space-x-2 text-sm">
               <AlertCircle className="h-4 w-4" />
@@ -537,12 +560,8 @@ function App() {
                   </div>
                 </div>
                 
-                <div className="px-8 py-6 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">HL</div>
-                    <span className="text-xs font-bold text-gray-500">hebrewlens.com</span>
-                  </div>
-                  <div className="text-[10px] text-gray-400 font-medium">© 2026 CMPGFB LLC</div>
+                <div className="px-8 py-4 bg-gray-50 border-t border-gray-100 text-center">
+                  <span className="text-xs font-bold text-gray-500">hebrewlens.com</span>
                 </div>
               </div>
 
@@ -785,7 +804,7 @@ function App() {
       <footer className="bg-white shadow-sm mt-auto">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
           <p className="text-center text-gray-600 text-sm">
-            HebrewLens © {new Date().getFullYear()} CMPGFB LLC.
+            HebrewLens © {new Date().getFullYear()}
           </p>
         </div>
       </footer>
