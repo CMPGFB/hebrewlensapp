@@ -89,21 +89,24 @@ function App() {
     try {
       // Small delay to ensure styles are applied
       await new Promise(resolve => setTimeout(resolve, 100));
-      const canvas = await html2canvas(shareCardRef.current, {
-        scale: 2,
+      
+      const shareHeader = shareCardRef.current.querySelector('[data-share-header]') as HTMLElement;
+      if (shareHeader) {
+        shareHeader.style.padding = '40px';
+      }
+
+      const dataUrl = await toPng(shareCardRef.current, {
+        quality: 0.95,
         backgroundColor: '#ffffff',
-        useCORS: true,
-        logging: false,
-        onclone: (clonedDoc) => {
-          const element = clonedDoc.querySelector('[data-share-header]');
-          if (element instanceof HTMLElement) {
-            element.style.padding = '40px';
-          }
-        }
+        pixelRatio: 2
       });
-      const url = canvas.toDataURL('image/png', 1.0);
+
+      if (shareHeader) {
+        shareHeader.style.padding = ''; // Reset padding after capture
+      }
+
       const a = document.createElement('a');
-      a.href = url;
+      a.href = dataUrl;
       a.download = `hebrew-translation-${Date.now()}.png`;
       a.click();
     } catch (err) {
