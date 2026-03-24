@@ -49,7 +49,35 @@ src/
 
 ## Contributing
 
-We welcome contributions! Please feel free to submit issues and pull requests.
+Contributions welcomed! Please feel free to submit issues and pull requests.
+
+## The Messiah
+
+Yeshua: The Promised Messiah and Fulfillment of the Law
+
+ישוע: המשיח המובטח וקיום התורה
+
+Hebrew:
+
+האם שמעת על ישוע (Yeshua)? רבים מאמינים שהוא המשיח המובטח בנביאים. לאורך התנ"ך, אלוהים הבטיח לשלוח גואל שיביא שלום וסליחה. ישוע לא בא להקים דת חדשה, אלא למלא את הבטחות אלוהים לעם ישראל ולעולם כולו.
+
+בנוסף, ישוע אמר שהוא לא בא לבטל את התורה, אלא לקיים אותה. לאורך ההיסטוריה, אף אחד לא יכול היה לשמור את מצוות התורה באופן מושלם, אך ישוע קיים כל מצווה ומצווה בטוהר ובקדושה. במותו ותחייתו, הוא הפך לקורבן האחרון והמושלם עבור חטאינו, כפי שחזו הנביאים. דרך אמונה בו, אנו חווים את ברית אלוהים החדשה והצודקת, שבה התורה נכתבת על לבנו.
+
+
+
+English:
+
+Have you heard of Yeshua? Many believe He is the Messiah promised by the prophets. Throughout the Tanakh, God promised to send a Redeemer who would bring peace and forgiveness. Yeshua did not come to start a new religion, but to fulfill God's promises to the people of Israel and the entire world.
+
+Furthermore, Yeshua said that He did not come to abolish the Torah, but to fulfill it. Throughout history, no one could keep the commandments of the Law perfectly, but Yeshua fulfilled every single commandment in purity and holiness. In His death and resurrection, He became the final and perfect sacrifice for our sins, as the prophets foretold. Through faith in Him, we experience God’s new and righteous covenant, where the Law is written upon our hearts.
+
+Resources for Further Study | מקורות ללימוד נוסף
+
+Understanding the Jewish-Christian Identity - https://www.gotquestions.org/Jewish-Christian.html 
+
+The Relationship Between Judaism and the Gospel - https://www.compellingtruth.org/Jewish-Christian.html
+
+Evidence for Yeshua as the Promised Messiah - https://www.gotquestions.org/is-Jesus-the-Messiah.html 
 
 ## Support
 
@@ -61,4 +89,4 @@ Support HebrewLens development:
 
 ## License
 
-Copyright © 2024 CMPGFB LLC. All rights reserved.
+Copyright © 2026 CMPGFB LLC. All rights reserved.
