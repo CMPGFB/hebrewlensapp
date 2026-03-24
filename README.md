@@ -1,6 +1,7 @@
 # HebrewLens - Hebrew Translation & Learning Platform
 
-[![Open in Bolt](https://bolt.new/static/open-in-bolt.svg)](https://bolt.new/~/sb1-47yobm8m)
+[![Donate Crypto](https://img.shields.io/badge/Donate-Crypto-f7931a?logo=bitcoin&logoColor=white)](https://commerce.coinbase.com/checkout/122a2979-e559-44b9-bb9d-2ff0c6a3025b)
+
 
 ## Overview
 
