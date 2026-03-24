@@ -699,7 +699,88 @@ function App() {
             </div>
           </div>
         )}
+        {/* Messiah Section */}
+        <section className="bg-gradient-to-br from-indigo-50 via-white to-purple-50 rounded-3xl shadow-sm border border-indigo-100/50 overflow-hidden">
+          <div className="p-8 md:p-12">
+            <div className="max-w-4xl mx-auto text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold text-indigo-950 mb-4" dir="rtl">
+                ישוע: המשיח המובטח וקיום התורה
+              </h2>
+              <h3 className="text-2xl md:text-3xl font-semibold text-indigo-800 opacity-90">
+                Yeshua: The Promised Messiah and Fulfillment of the Law
+              </h3>
+              <div className="h-1.5 w-24 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mt-8 rounded-full" />
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-12 items-start">
+              {/* Hebrew Content */}
+              <div className="space-y-6" dir="rtl">
+                <div className="flex items-center space-x-2 space-x-reverse mb-4">
+                  <span className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-xs font-bold">עב</span>
+                  <h4 className="text-xl font-bold text-indigo-900">אודות המשיח</h4>
+                </div>
+                <p className="text-lg leading-relaxed text-gray-800">
+                  האם שמעת על ישוע (Yeshua)? רבים מאמינים שהוא המשיח המובטח בנביאים. לאורך התנ"ך, אלוהים הבטיח לשלוח גואל שיביא שלום וסליחה. ישוע לא בא להקים דת חדשה, אלא למלא את הבטחות אלוהים לעם ישראל ולעולם כולו.
+                </p>
+                <p className="text-lg leading-relaxed text-gray-800">
+                  בנוסף, ישוע אמר שהוא לא בא לבטל את התורה, אלא לקיים אותה. לאורך ההיסטוריה, אף אחד לא יכול היה לשמור את מצוות התורה באופן מושלם, אך ישוע קיים כל מצווה ומצווה בטוהר ובקדושה. במותו ותחייתו, הוא הפך לקורבן האחרון והמושלם עבור חטאינו, כפי שחזו הנביאים. דרך אמונה בו, אנו חווים את ברית אלוהים החדשה והצודקת, שבה התורה נכתבת על לבנו.
+                </p>
+              </div>
+
+              {/* English Content */}
+              <div className="space-y-6">
+                <div className="flex items-center space-x-2 mb-4">
+                  <span className="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white text-xs font-bold">EN</span>
+                  <h4 className="text-xl font-bold text-indigo-900">About the Messiah</h4>
+                </div>
+                <p className="text-lg leading-relaxed text-gray-800">
+                  Have you heard of Yeshua? Many believe He is the Messiah promised by the prophets. Throughout the Tanakh, God promised to send a Redeemer who would bring peace and forgiveness. Yeshua did not come to start a new religion, but to fulfill God's promises to the people of Israel and the entire world.
+                </p>
+                <p className="text-lg leading-relaxed text-gray-800">
+                  Furthermore, Yeshua said that He did not come to abolish the Torah, but to fulfill it. Throughout history, no one could keep the commandments of the Law perfectly, but Yeshua fulfilled every single commandment in purity and holiness. In His death and resurrection, He became the final and perfect sacrifice for our sins, as the prophets foretold. Through faith in Him, we experience God’s new and righteous covenant, where the Law is written upon our hearts.
+                </p>
+              </div>
+            </div>
+
+            {/* Resources */}
+            <div className="mt-16 pt-12 border-t border-indigo-100">
+              <h5 className="text-center text-sm font-bold text-indigo-400 uppercase tracking-widest mb-8">
+                Resources for Further Study | מקורות ללימוד נוסף
+              </h5>
+              <div className="grid sm:grid-cols-3 gap-4 max-w-5xl mx-auto">
+                <a 
+                  href="https://www.gotquestions.org/Jewish-Christian.html" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="group bg-white p-4 rounded-2xl border border-gray-100 hover:border-indigo-200 hover:shadow-md transition-all flex items-start space-x-3"
+                >
+                  <Info className="h-5 w-5 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm font-medium text-gray-700 group-hover:text-indigo-600">Jewish-Christian Identity</span>
+                </a>
+                <a 
+                  href="https://www.compellingtruth.org/Jewish-Christian.html" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="group bg-white p-4 rounded-2xl border border-gray-100 hover:border-indigo-200 hover:shadow-md transition-all flex items-start space-x-3"
+                >
+                  <Book className="h-5 w-5 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm font-medium text-gray-700 group-hover:text-indigo-600">Judaism and the Gospel</span>
+                </a>
+                <a 
+                  href="https://www.gotquestions.org/is-Jesus-the-Messiah.html" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="group bg-white p-4 rounded-2xl border border-gray-100 hover:border-indigo-200 hover:shadow-md transition-all flex items-start space-x-3"
+                >
+                  <CheckCircle className="h-5 w-5 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm font-medium text-gray-700 group-hover:text-indigo-600">Evidence for Yeshua</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
+
 
       <footer className="bg-white shadow-sm mt-auto">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
