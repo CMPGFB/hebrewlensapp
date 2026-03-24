@@ -1,23 +1,40 @@
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: process.env.VITE_MOONSHOT_API_KEY,
-  baseURL: "https://api.moonshot.cn/v1",
-});
-
-export default async function handler(req: any, res: any) {
+export const handler = async (event: any) => {
   // Only allow POST requests
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      body: JSON.stringify({ error: 'Method not allowed' }),
+    };
   }
 
-  const { text } = req.body;
+  // Use either MOONSHOT_API_KEY or VITE_MOONSHOT_API_KEY
+  const apiKey = process.env.MOONSHOT_API_KEY || process.env.VITE_MOONSHOT_API_KEY;
 
-  if (!text) {
-    return res.status(400).json({ error: 'Text is required' });
+  if (!apiKey) {
+    console.error('MOONSHOT_API_KEY is missing in environment variables');
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'API Key not configured on server' }),
+    };
   }
+
+  const openai = new OpenAI({
+    apiKey: apiKey,
+    baseURL: "https://api.moonshot.cn/v1",
+  });
 
   try {
+    const { text } = JSON.parse(event.body);
+
+    if (!text) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Text is required' }),
+      };
+    }
+
     const response = await openai.chat.completions.create({
       model: "moonshot-v1-8k",
       messages: [
@@ -34,9 +51,16 @@ export default async function handler(req: any, res: any) {
     });
 
     const translation = response.choices[0].message.content || '';
-    return res.status(200).json({ translation });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ translation }),
+    };
   } catch (error) {
     console.error('Moonshot translation error:', error);
-    return res.status(500).json({ error: 'Translation failed' });
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Translation failed', details: (error as any).message }),
+    };
   }
-}
+};
+
