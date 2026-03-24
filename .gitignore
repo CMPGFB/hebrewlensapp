@@ -90,3 +90,8 @@ dist
 # Temporary folders
 tmp/
 temp/
+
+# Internal Documentation
+HEBREWLENS_CONTEXT.md
+DEPLOYMENT_GUIDE.md
+download-files.md
