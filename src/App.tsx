@@ -479,18 +479,22 @@ function App() {
               <div className="p-8 space-y-8 bg-white">
                 <div className="text-center">
                   <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Original Text</h3>
-                  <p className="text-2xl font-medium text-gray-800 italic">"{inputText}"</p>
+                  <p className={`font-medium text-gray-800 italic ${
+                    inputText.length > 40 ? 'text-lg' : inputText.length > 20 ? 'text-xl' : 'text-2xl'
+                  }`}>"{inputText}"</p>
                 </div>
                 
                 <div className="text-center bg-gray-50 rounded-2xl p-6 py-8 border border-gray-100">
                   <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Hebrew Translation</h3>
-                  <p className="text-5xl font-bold text-indigo-900 leading-tight" dir="rtl">{hebrewText}</p>
+                  <p className={`font-bold text-indigo-900 leading-tight ${
+                    hebrewText.length > 30 ? 'text-2xl' : hebrewText.length > 15 ? 'text-4xl' : 'text-5xl'
+                  }`} dir="rtl">{hebrewText}</p>
                 </div>
                 
                 <div className="space-y-4">
                   <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Letter Analysis</h3>
                   <div className="grid grid-cols-2 gap-3">
-                    {analyzedText.slice(0, 4).map((letter, index) => (
+                    {analyzedText.map((letter, index) => (
                       <div key={index} className="bg-indigo-50 bg-opacity-50 rounded-xl p-3 border border-indigo-100/50">
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-2xl font-bold text-indigo-700">{letter.hebrew}</span>
@@ -503,9 +507,6 @@ function App() {
                       </div>
                     ))}
                   </div>
-                  {analyzedText.length > 4 && (
-                    <p className="text-[10px] text-gray-400 text-center italic mt-2">+ {analyzedText.length - 4} more letters analyzed</p>
-                  )}
                 </div>
               </div>
               
