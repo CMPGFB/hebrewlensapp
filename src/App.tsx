@@ -491,50 +491,61 @@ function App() {
               
               <div
                 ref={shareCardRef}
-                className="bg-gradient-to-br from-indigo-500 to-purple-600 p-8 rounded-xl text-white"
+                className="bg-white p-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-100"
+                style={{ width: '400px' }}
               >
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center space-x-2">
-                    <Type className="h-8 w-8" />
-                    <h2 className="text-2xl font-bold">HebrewLens</h2>
+                {/* Visual Header */}
+                <div className="bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 p-8 text-white text-center relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none transform -rotate-12 translate-y-4">
+                    <span className="text-[120px] font-bold">א ב ג</span>
                   </div>
-                  <div className="text-sm opacity-75">Translation</div>
+                  <Type className="h-12 w-12 mx-auto mb-4 opacity-90" />
+                  <h2 className="text-3xl font-bold tracking-tight">HebrewLens</h2>
+                  <p className="text-indigo-100 text-sm mt-1 opacity-80 uppercase tracking-widest">Ancient Wisdom Revealed</p>
                 </div>
                 
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-sm font-medium opacity-75">Original Text</h3>
-                    <p className="text-xl mt-1">{inputText}</p>
+                <div className="p-8 space-y-8 bg-white">
+                  <div className="text-center">
+                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Original Text</h3>
+                    <p className="text-2xl font-medium text-gray-800 italic">"{inputText}"</p>
                   </div>
                   
-                  <div>
-                    <h3 className="text-sm font-medium opacity-75">Hebrew Translation</h3>
-                    <p className="text-3xl mt-1" dir="rtl">{hebrewText}</p>
+                  <div className="text-center bg-gray-50 rounded-2xl p-6 py-8 border border-gray-100">
+                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Hebrew Translation</h3>
+                    <p className="text-5xl font-bold text-indigo-900 leading-tight" dir="rtl">{hebrewText}</p>
                   </div>
                   
-                  <div>
-                    <h3 className="text-sm font-medium opacity-75">Letter by Letter</h3>
-                    <div className="flex flex-wrap gap-3 mt-2">
-                      {analyzedText.map((letter, index) => (
-                        <div key={index} className="bg-white bg-opacity-10 rounded-lg p-3">
-                          <div className="flex items-center space-x-2">
-                            <span className="text-2xl">{letter.hebrew}</span>
+                  <div className="space-y-4">
+                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Letter Analysis</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      {analyzedText.slice(0, 4).map((letter, index) => (
+                        <div key={index} className="bg-indigo-50 bg-opacity-50 rounded-xl p-3 border border-indigo-100/50">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-2xl font-bold text-indigo-700">{letter.hebrew}</span>
                             {letter.pictograph && (
                               <span className="text-xl">{letter.pictograph}</span>
                             )}
                           </div>
-                          <span className="text-sm opacity-75 block mt-1">{letter.name}</span>
-                          <span className="text-xs opacity-75 block">{letter.meaning}</span>
+                          <span className="text-xs font-bold text-indigo-900/70 block uppercase tracking-tighter">{letter.name}</span>
+                          <span className="text-[10px] text-indigo-800/60 block leading-tight">{letter.meaning}</span>
                         </div>
                       ))}
                     </div>
+                    {analyzedText.length > 4 && (
+                      <p className="text-[10px] text-gray-400 text-center italic mt-2">+ {analyzedText.length - 4} more letters analyzed</p>
+                    )}
                   </div>
                 </div>
                 
-                <div className="mt-6 pt-6 border-t border-white border-opacity-20">
-                  <p className="text-sm opacity-75">Translated with HebrewLens</p>
+                <div className="px-8 py-6 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">HL</div>
+                    <span className="text-xs font-bold text-gray-500">hebrewlens.com</span>
+                  </div>
+                  <div className="text-[10px] text-gray-400 font-medium">© 2026 CMPGFB LLC</div>
                 </div>
               </div>
+
               
               <div className="mt-4 flex justify-center">
                 <button
