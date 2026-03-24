@@ -80,8 +80,46 @@ function App() {
 
   const [showGuide, setShowGuide] = useState(false);
   const [showDonation, setShowDonation] = useState(false);
+  const [pendingDownload, setPendingDownload] = useState(false);
   const alphabetContainerRef = useRef<HTMLDivElement>(null);
   const shareCardRef = useRef<HTMLDivElement>(null);
+
+  const triggerDownload = async () => {
+    if (!shareCardRef.current || !hebrewText) return;
+    try {
+      // Small delay to ensure styles are applied
+      await new Promise(resolve => setTimeout(resolve, 100));
+      const canvas = await html2canvas(shareCardRef.current, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        useCORS: true,
+        logging: false,
+        onclone: (clonedDoc) => {
+          const element = clonedDoc.querySelector('[data-share-header]');
+          if (element instanceof HTMLElement) {
+            element.style.padding = '40px';
+          }
+        }
+      });
+      const url = canvas.toDataURL('image/png', 1.0);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `hebrew-translation-${Date.now()}.png`;
+      a.click();
+    } catch (err) {
+      console.error('Failed to generate image:', err);
+      // Fallback
+      alert('Could not generate the image at this time. Please try taking a screenshot instead.');
+    } finally {
+      setPendingDownload(false);
+      setShowDonation(false);
+    }
+  };
+
+  const handleDownloadRequest = () => {
+    setPendingDownload(true);
+    setShowDonation(true);
+  };
 
   const scrollAlphabet = (direction: 'left' | 'right') => {
     if (!alphabetContainerRef.current) return;
@@ -243,6 +281,28 @@ function App() {
     };
   };
 
+  const handleTranslate = async () => {
+    if (isLoading || !inputText.trim()) return;
+    setIsLoading(true);
+    setError(null);
+    try {
+      const aiHebrew = await translateWithAI(inputText);
+      if (!aiHebrew) throw new Error('Could not get translation from AI');
+      const { steps } = translateToHebrew(inputText);
+      setHebrewText(aiHebrew);
+      setTranslationSteps(steps);
+      const letters = Array.from(aiHebrew).filter(char => char !== ' ');
+      setAnalyzedText(letters.map(char =>
+        hebrewAlphabet.find(letter => letter.hebrew === char)
+      ).filter((letter): letter is HebrewLetter => letter !== undefined));
+    } catch (err) {
+      setError('Failed to translate. Please check your API key and network.');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex flex-col">
       <header className="bg-white shadow-sm">
@@ -284,38 +344,17 @@ function App() {
             rows={3}
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleTranslate();
+              }
+            }}
           />
           <button
             className="mt-4 w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
             disabled={isLoading || !inputText.trim()}
-            onClick={async () => {
-              setIsLoading(true);
-              setError(null);
-              try {
-                // Use AI translation
-                const aiHebrew = await translateWithAI(inputText);
-                
-                if (!aiHebrew) {
-                  throw new Error('Could not get translation from AI');
-                }
-
-                // Still get mapping steps from local function for analysis
-                const { steps } = translateToHebrew(inputText);
-                
-                setHebrewText(aiHebrew);
-                setTranslationSteps(steps);
-                
-                const letters = Array.from(aiHebrew).filter(char => char !== ' ');
-                setAnalyzedText(letters.map(char => 
-                  hebrewAlphabet.find(letter => letter.hebrew === char)
-                ).filter((letter): letter is HebrewLetter => letter !== undefined));
-              } catch (err) {
-                setError('Failed to translate. Please check your API key and network.');
-                console.error(err);
-              } finally {
-                setIsLoading(false);
-              }
-            }}
+            onClick={handleTranslate}
           >
             {isLoading ? (
               <>
@@ -415,42 +454,71 @@ function App() {
           </div>
         </div>
 
-        {/* Translation Results */}
+        {/* Translation Results (Share Card Style by Default) */}
         {hebrewText && (
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Translation Result</h3>
-              <button
-                onClick={() => setShowShareCard(true)}
-                className="flex items-center space-x-2 text-indigo-600 hover:text-indigo-700"
-              >
-                <Share2 className="h-5 w-5" />
-                <span>Share</span>
-              </button>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <p className="text-2xl text-right" dir="rtl">{hebrewText}</p>
-            </div>
-          </div>
-        )}
-
-        {/* Letter Analysis */}
-        {analyzedText.length > 0 && (
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h3 className="text-lg font-semibold mb-4">Letter Analysis</h3>
-            <div className="space-y-4">
-              {analyzedText.map((letter, index) => (
-                <div key={index} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
-                  <div className="text-4xl font-bold text-indigo-600">{letter.hebrew}</div>
-                  <div>
-                    <div className="font-semibold">{letter.name}</div>
-                    <div className="text-gray-600">{letter.meaning}</div>
-                    {letter.pictograph && (
-                      <div className="text-2xl mt-1">{letter.pictograph}</div>
-                    )}
-                  </div>
+          <div className="mt-8 flex flex-col items-center">
+            <h3 className="text-xl font-bold text-gray-900 mb-6 uppercase tracking-wider text-center w-full max-w-[400px]">Translation Result</h3>
+            
+            <div
+              ref={shareCardRef}
+              className="bg-white p-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-100 w-full max-w-[400px]"
+            >
+              {/* Visual Header */}
+              <div className="bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 p-8 text-white text-center relative overflow-hidden" data-share-header>
+                <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none transform -rotate-12 translate-y-4">
+                  <span className="text-[120px] font-bold">א ב ג</span>
                 </div>
-              ))}
+                <Type className="h-12 w-12 mx-auto mb-4 opacity-90" />
+                <h2 className="text-3xl font-bold tracking-tight">HebrewLens</h2>
+                <p className="text-indigo-100 text-sm mt-1 opacity-80 uppercase tracking-widest">Ancient Wisdom Revealed</p>
+              </div>
+              
+              <div className="p-8 space-y-8 bg-white">
+                <div className="text-center">
+                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Original Text</h3>
+                  <p className="text-2xl font-medium text-gray-800 italic">"{inputText}"</p>
+                </div>
+                
+                <div className="text-center bg-gray-50 rounded-2xl p-6 py-8 border border-gray-100">
+                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Hebrew Translation</h3>
+                  <p className="text-5xl font-bold text-indigo-900 leading-tight" dir="rtl">{hebrewText}</p>
+                </div>
+                
+                <div className="space-y-4">
+                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Letter Analysis</h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    {analyzedText.slice(0, 4).map((letter, index) => (
+                      <div key={index} className="bg-indigo-50 bg-opacity-50 rounded-xl p-3 border border-indigo-100/50">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-2xl font-bold text-indigo-700">{letter.hebrew}</span>
+                          {letter.pictograph && (
+                            <span className="text-xl">{letter.pictograph}</span>
+                          )}
+                        </div>
+                        <span className="text-xs font-bold text-indigo-900/70 block uppercase tracking-tighter">{letter.name}</span>
+                        <span className="text-[10px] text-indigo-800/60 block leading-tight">{letter.meaning}</span>
+                      </div>
+                    ))}
+                  </div>
+                  {analyzedText.length > 4 && (
+                    <p className="text-[10px] text-gray-400 text-center italic mt-2">+ {analyzedText.length - 4} more letters analyzed</p>
+                  )}
+                </div>
+              </div>
+              
+              <div className="px-8 py-4 bg-gray-50 border-t border-gray-100 text-center">
+                <span className="text-xs font-bold text-gray-500">hebrewlens.com</span>
+              </div>
+            </div>
+
+            <div className="mt-8 flex justify-center w-full max-w-[400px]">
+              <button
+                onClick={handleDownloadRequest}
+                className="w-full flex items-center justify-center space-x-2 bg-indigo-600 text-white px-6 py-4 rounded-xl hover:bg-indigo-700 transition-colors shadow-lg font-bold text-lg"
+              >
+                <Download className="h-6 w-6" />
+                <span>Save Image</span>
+              </button>
             </div>
           </div>
         )}
@@ -499,86 +567,6 @@ function App() {
           )}
         </div>
 
-        {showShareCard && (
-          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-xl p-6 max-w-2xl w-full mx-4 my-4 max-h-[80vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-semibold">Share Translation</h3>
-                <button
-                  onClick={() => setShowShareCard(false)}
-                  className="text-gray-400 hover:text-gray-600"
-                >
-                  <X className="h-6 w-6" />
-                </button>
-              </div>
-              
-              <div
-                ref={shareCardRef}
-                className="bg-white p-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-100"
-                style={{ width: '400px' }}
-              >
-                {/* Visual Header */}
-                <div className="bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 p-8 text-white text-center relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none transform -rotate-12 translate-y-4">
-                    <span className="text-[120px] font-bold">א ב ג</span>
-                  </div>
-                  <Type className="h-12 w-12 mx-auto mb-4 opacity-90" />
-                  <h2 className="text-3xl font-bold tracking-tight">HebrewLens</h2>
-                  <p className="text-indigo-100 text-sm mt-1 opacity-80 uppercase tracking-widest">Ancient Wisdom Revealed</p>
-                </div>
-                
-                <div className="p-8 space-y-8 bg-white">
-                  <div className="text-center">
-                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Original Text</h3>
-                    <p className="text-2xl font-medium text-gray-800 italic">"{inputText}"</p>
-                  </div>
-                  
-                  <div className="text-center bg-gray-50 rounded-2xl p-6 py-8 border border-gray-100">
-                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Hebrew Translation</h3>
-                    <p className="text-5xl font-bold text-indigo-900 leading-tight" dir="rtl">{hebrewText}</p>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Letter Analysis</h3>
-                    <div className="grid grid-cols-2 gap-3">
-                      {analyzedText.slice(0, 4).map((letter, index) => (
-                        <div key={index} className="bg-indigo-50 bg-opacity-50 rounded-xl p-3 border border-indigo-100/50">
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-2xl font-bold text-indigo-700">{letter.hebrew}</span>
-                            {letter.pictograph && (
-                              <span className="text-xl">{letter.pictograph}</span>
-                            )}
-                          </div>
-                          <span className="text-xs font-bold text-indigo-900/70 block uppercase tracking-tighter">{letter.name}</span>
-                          <span className="text-[10px] text-indigo-800/60 block leading-tight">{letter.meaning}</span>
-                        </div>
-                      ))}
-                    </div>
-                    {analyzedText.length > 4 && (
-                      <p className="text-[10px] text-gray-400 text-center italic mt-2">+ {analyzedText.length - 4} more letters analyzed</p>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="px-8 py-4 bg-gray-50 border-t border-gray-100 text-center">
-                  <span className="text-xs font-bold text-gray-500">hebrewlens.com</span>
-                </div>
-              </div>
-
-              
-              <div className="mt-4 flex justify-center">
-                <button
-                  onClick={generateShareableImage}
-                  className="flex items-center space-x-2 bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors"
-                >
-                  <Download className="h-5 w-5" />
-                  <span>Download Image</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
         {showDonation && (
           <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl p-6 max-w-2xl w-full mx-4 my-4 max-h-[80vh] overflow-y-auto">
@@ -595,9 +583,13 @@ function App() {
               <div className="text-center">
                 <div className="bg-rose-50 rounded-lg p-3 sm:p-4">
                   <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-rose-600 mx-auto mb-2" />
-                  <h4 className="text-base font-semibold text-gray-900 mb-2">Support Our Mission</h4>
+                  <h4 className="text-base font-semibold text-gray-900 mb-2">
+                    {pendingDownload ? 'Support Before You Save' : 'Support Our Mission'}
+                  </h4>
                   <p className="text-sm text-gray-600">
-                    Help us continue providing and improving HebrewLens as a free resource for learning and understanding Hebrew.
+                    {pendingDownload
+                      ? 'HebrewLens is 100% free to use. If this translation was helpful, please consider donating to support the platform before saving your image.'
+                      : 'Help us continue providing and improving HebrewLens as a free resource for learning and understanding Hebrew.'}
                   </p>
                 </div>
 
@@ -714,6 +706,17 @@ function App() {
                     </div>
                   )}
                 </div>
+
+                {pendingDownload && (
+                  <div className="mt-8 border-t border-gray-100 pt-6">
+                    <button
+                      onClick={triggerDownload}
+                      className="text-gray-500 hover:text-gray-800 text-sm font-medium underline transition-colors"
+                    >
+                      Skip & Download Image
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

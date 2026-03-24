@@ -3,21 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#4F46E5" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="HebrewLens" />
     <meta property="og:title" content="HebrewLens - English to Hebrew Translation" />
     <meta property="og:description" content="Translate English to Hebrew with letter-by-letter analysis and ancient pictographs" />
     <meta property="og:image" content="https://hebrewlens.com/og-image.png" />
-
     <meta property="og:url" content="https://hebrewlens.com" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="description" content="Discover the ancient pictographic meaning behind every Hebrew letter. Translate English to Hebrew with deep linguistic analysis and shareable cards." />
     <meta name="keywords" content="Hebrew translation, ancient Hebrew, pictographs, Bible study, Hebrew learning, Aleph Bet, Hebrew Lens" />
-    <meta name="author" content="CMPGFB LLC" />
+    <meta name="author" content="HebrewLens" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HebrewLens - English to Hebrew Translation</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>
