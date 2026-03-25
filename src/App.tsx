@@ -400,10 +400,11 @@ function App() {
           )}
 
           
-          {/* Hebrew Alphabet Reference */}
+          {/* Hebrew Alphabet — Symbolic Lens */}
           <div className="mt-6 border-t pt-4">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium text-gray-500">Hebrew Alphabet Reference</h3>
+            <div className="flex flex-col mb-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-medium text-gray-500">Hebrew Alphabet — Symbolic Lens</h3>
               <div className="flex items-center space-x-2 text-gray-400">
                 <span className="text-xs hidden sm:inline">Scroll</span>
                 <div className="flex items-center space-x-1">
@@ -425,6 +426,8 @@ function App() {
                   </button>
                 </div>
               </div>
+              </div>
+              <p className="text-[11px] text-gray-400 italic mt-1">Letter meanings from spiritual traditions—Vav (hook), Tav (mark), etc.—to inspire your study.</p>
             </div>
             <div className="overflow-x-auto relative">
               <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-white to-transparent w-8 z-10 pointer-events-none" />
@@ -473,7 +476,7 @@ function App() {
                 </div>
                 <Type className="h-12 w-12 mx-auto mb-4 opacity-90" />
                 <h2 className="text-3xl font-bold tracking-tight">HebrewLens</h2>
-                <p className="text-indigo-100 text-sm mt-1 opacity-80 uppercase tracking-widest">Ancient Wisdom Revealed</p>
+                <p className="text-indigo-100 text-sm mt-1 opacity-80 uppercase tracking-widest">Spiritual Reflection Tool</p>
               </div>
               
               <div className="p-8 space-y-8 bg-white">
@@ -489,10 +492,12 @@ function App() {
                   <p className={`font-bold text-indigo-900 leading-tight ${
                     hebrewText.length > 30 ? 'text-2xl' : hebrewText.length > 15 ? 'text-4xl' : 'text-5xl'
                   }`} dir="rtl">{hebrewText}</p>
+                  <p className="text-[10px] text-gray-400 mt-2 italic">Lexical translation powered by AI</p>
                 </div>
                 
                 <div className="space-y-4">
-                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Letter Analysis</h3>
+                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Symbolic Lens</h3>
+                  <p className="text-[10px] text-gray-400 text-center italic -mt-2">Pictograph-inspired word-pictures for spiritual reflection</p>
                   <div className="grid grid-cols-2 gap-3">
                     {analyzedText.map((letter, index) => (
                       <div key={index} className="bg-indigo-50 bg-opacity-50 rounded-xl p-3 border border-indigo-100/50">
@@ -546,7 +551,7 @@ function App() {
                     <h4 className="text-base font-semibold text-indigo-600 mb-2">Tips for Better Results</h4>
                     <ul className="list-disc list-inside space-y-1 text-sm text-gray-600 ml-2">
                       <li>Use simple English words and phrases</li>
-                      <li>Check the letter analysis for deeper understanding</li>
+                      <li>Explore the Symbolic Lens for creative word-pictures</li>
                       <li>Review common words to improve comprehension</li>
                       <li>Use the search feature to explore specific letters</li>
                     </ul>
@@ -555,7 +560,14 @@ function App() {
                   <div>
                     <h4 className="text-base font-semibold text-indigo-600 mb-2">Sharing Translations</h4>
                     <p className="text-sm text-gray-600">
-                      After translation, use the "Share Translation" button to generate a beautiful image of your translation, perfect for sharing on social media or saving for later reference.
+                      After translation, save your Share Card image — it includes both the lexical translation and Symbolic Lens reflections.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="text-base font-semibold text-indigo-600 mb-2">About the Symbolic Lens</h4>
+                    <p className="text-sm text-gray-500 italic">
+                      The Symbolic Lens is interpretive and devotional. Hebrew letters primarily represent sounds, not fixed concepts. Enjoy these as spiritual reflections.
                     </p>
                   </div>
                 </div>
@@ -812,6 +824,9 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
           <p className="text-center text-gray-600 text-sm">
             HebrewLens © {new Date().getFullYear()}
+          </p>
+          <p className="text-center text-gray-400 text-[11px] mt-1">
+            HebrewLens is a spiritual reflection tool, not a substitute for qualified Hebrew or theological instruction.
           </p>
         </div>
       </footer>
