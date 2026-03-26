@@ -584,8 +584,8 @@ function App() {
         </div>
 
         {showDonation && (
-          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-xl p-6 max-w-2xl w-full mx-4 my-4 max-h-[80vh] overflow-y-auto">
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-2 sm:p-4 z-50">
+            <div className="bg-white rounded-xl p-4 sm:p-6 max-w-md sm:max-w-2xl w-full mx-2 sm:mx-4 my-2 sm:my-4 max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold">Support HebrewLens</h3>
                 <button
@@ -609,38 +609,38 @@ function App() {
                   </p>
                 </div>
 
-                <div className="flex justify-center gap-4 mt-6 mb-6">
+                <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mt-4 sm:mt-6 mb-4 sm:mb-6">
                   <button
                     onClick={() => setDonationType('bitcoin')}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                    className={`flex items-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base ${
                       donationType === 'bitcoin'
                         ? 'bg-[#F7931A] text-white'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                   >
-                    <Bitcoin className="h-5 w-5" />
+                    <Bitcoin className="h-4 w-4 sm:h-5 sm:w-5" />
                     <span>Bitcoin</span>
                   </button>
                   <button
                     onClick={() => setDonationType('crypto')}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                    className={`flex items-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base ${
                       donationType === 'crypto'
                         ? 'bg-[#0052FF] text-white'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                   >
-                    <Wallet className="h-5 w-5" />
+                    <Wallet className="h-4 w-4 sm:h-5 sm:w-5" />
                     <span>Crypto</span>
                   </button>
                   <button
                     onClick={() => setDonationType('cash')}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                    className={`flex items-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base ${
                       donationType === 'cash'
                         ? 'bg-[#00D632] text-white'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                   >
-                    <CreditCard className="h-5 w-5" />
+                    <CreditCard className="h-4 w-4 sm:h-5 sm:w-5" />
                     <span>Cash</span>
                   </button>
                 </div>
@@ -648,8 +648,8 @@ function App() {
                 <div className="space-y-3">
                   {donationType === 'bitcoin' ? (
                     <div className="space-y-3">
-                      <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg p-4">
-                        <Bitcoin className="h-8 w-8 text-orange-500 mx-auto mb-3" />
+                      <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg p-3 sm:p-4">
+                        <Bitcoin className="h-6 w-6 sm:h-8 sm:w-8 text-orange-500 mx-auto mb-3" />
                         <div className="space-y-3">
                           <a
                             href="https://mempool.space/address/bc1qaavapz3x3z7necw3l25as2ey0ttac4wdwdhp6e"
@@ -675,8 +675,8 @@ function App() {
                     </div>
                   ) : donationType === 'crypto' ? (
                     <div className="space-y-3">
-                      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4">
-                        <Wallet className="h-8 w-8 text-blue-500 mx-auto mb-3" />
+                      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-3 sm:p-4">
+                        <Wallet className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500 mx-auto mb-3" />
                         <div className="space-y-3">
                           <a
                             href="https://commerce.coinbase.com/pay/d1e2cac8-7d50-4d49-9b34-68ccf20d49a2"
@@ -695,8 +695,8 @@ function App() {
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4">
-                        <Banknote className="h-8 w-8 text-green-500 mx-auto mb-3" />
+                      <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-3 sm:p-4">
+                        <Banknote className="h-6 w-6 sm:h-8 sm:w-8 text-green-500 mx-auto mb-3" />
                         <div className="space-y-3">
                           <a
                             href="https://cash.app/$CMPGFB"
@@ -724,7 +724,7 @@ function App() {
                 </div>
 
                 {pendingDownload && (
-                  <div className="mt-8 border-t border-gray-100 pt-6">
+                  <div className="mt-6 sm:mt-8 border-t border-gray-100 pt-4 sm:pt-6">
                     <button
                       onClick={triggerDownload}
                       className="text-gray-500 hover:text-gray-800 text-sm font-medium underline transition-colors"
